@@ -1,0 +1,88 @@
+words=['Grapes','Mango','Apple','Pear','Mobile','Telephone','Cricket','Television','Driver','Laptop','Chitkara']
+
+
+def labelslider():
+    global count,sliderWords
+    text='Welcome to typing speed increaser game'
+    if(count>=len(text)):
+        count = 0 
+        sliderWords = ''
+    sliderWords += text[count]
+    count += 1
+    fontLabel.configure(text=sliderWords)
+    fontLabel.after(150,labelslider)
+
+def startGame(event):
+    global score,miss
+    gameplaydetailLabel.configure(text='')
+    if(wordEntry.get() ==wordLabel['text']):
+        score +=1
+        scoreLabelCount.configure(text=score)
+        print('Score',score)
+        
+    else:
+        miss +=1
+        print('Miss',miss)
+    random.shuffle(words)
+    wordLabel.configure(text=words[0])
+    wordEntry.delete(0,END)
+
+from tkinter import*
+import random
+
+##############################root method
+root = Tk()
+root.geometry('800x600+400+100')
+root.configure(bg='powder blue')
+root.title('Typing speed Increaser game')
+
+#############################variable section
+score = 0
+timeleft = 60
+count = 0
+sliderWords = ''
+miss=0
+
+################################label methods
+
+
+
+fontLabel = Label(root,text='',font=('airal',25,'italic bold'),
+                  bg='powder blue',fg='red',width=40)
+fontLabel.place(x=10,y=10)
+labelslider()
+random.shuffle(words)
+wordLabel=Label(root,text=words[0],font=('airal',25,'italic bold'),bg='powder blue')
+wordLabel.place(x=350,y=200)
+
+
+scoreLabel=Label(root,text='Your Score : ',font=('airal',25,'italic bold'),bg='powder blue')
+scoreLabel.place(x=10,y=100)
+
+
+scoreLabelCount = Label(root,text=score,font=('airal',25,'italic bold'),bg='powder blue',fg='blue')
+scoreLabelCount.place(x=80,y=180)
+
+
+timerLabel=Label(root,text='time left: ',font=('airal',25,'italic bold'),bg='powder blue')
+timerLabel.place(x=600,y=100)
+
+
+timeLabelCount = Label(root,text=timeleft,font=('airal',25,'italic bold'),bg='powder blue',fg='blue')
+timeLabelCount.place(x=680,y=180)
+
+
+gameplaydetailLabel=Label(root,text='Type word and hit enter button',font=('arial',30,'italic bold'),
+                          bg='powder blue',fg='dark grey')
+gameplaydetailLabel.place(x=120,y=450)
+
+#########################################################Entry method
+
+
+
+wordEntry=Entry(root,font=('arial',25,'italic bold'),bd=10,justify='center')
+wordEntry.place(x=250,y=300)
+wordEntry.focus_set()
+##########################################3
+
+root.bind('<Return>',startGame)
